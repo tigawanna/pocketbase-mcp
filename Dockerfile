@@ -15,6 +15,9 @@ RUN --mount=type=cache,target=/root/.npm npm install
 COPY src/ ./src/
 
 # Build the TypeScript project
+RUN npm install
+RUN npm install -g tsc
+
 RUN npm run build
 
 # Use a lightweight Node.js image for the production build
@@ -32,6 +35,8 @@ EXPOSE 3000
 
 # Set the environment variables for the PocketBase connection
 ENV POCKETBASE_URL=http://127.0.0.1:8090
+ENV POCKETBASE_ADMIN_EMAIL=test@test.com
+ENV POCKETBASE_ADMIN_PASSWORD=test
 
 # Start the server
 CMD ["node", "build/index.js"]
